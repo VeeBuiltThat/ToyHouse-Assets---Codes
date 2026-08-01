@@ -1,5 +1,4 @@
 FREE-USER TOYHOUSE LAYOUT
-
 This version is intended to be pasted directly into a Toyhouse profile HTML field.
 
 It uses:
@@ -12,7 +11,7 @@ It uses:
 - no Premium Custom CSS
 
 HOW TO USE
-1. Open free_user_profile_HTML.txt.
+1. Open index.html
 2. Copy everything.
 3. Paste it into your character or user profile HTML editor.
 4. Replace all placeholder text and links.
