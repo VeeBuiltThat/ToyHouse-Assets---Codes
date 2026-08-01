@@ -1,0 +1,1375 @@
+<!--
+  MYSTERY — INTERACTIVE ART FIGHT PROFILE
+  JavaScript-free: built with CSS, links, and <details>/<summary>.
+  Replace every [PLACEHOLDER] and example image/link before posting.
+  The centred flashlight is decorative and remains static on Art Fight.
+-->
+
+<style>
+.af-mystery-room,
+.af-mystery-room * {
+  box-sizing: border-box;
+}
+
+.af-mystery-room {
+  --mx: 50%;
+  --my: 240px;
+  position: relative;
+  max-width: 900px;
+  margin: 24px auto;
+  overflow: hidden;
+  color: #e6e0e0;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(121, 0, 0, .11), transparent 25%),
+    linear-gradient(#070000, #020202 58%, #090000);
+  border: 1px solid #5e1010;
+  font-family: "Courier New", Courier, monospace;
+  box-shadow:
+    0 0 0 6px #050000,
+    0 24px 60px rgba(0,0,0,.82);
+  cursor: crosshair;
+  isolation: isolate;
+}
+
+.af-mystery-room a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.af-mystery-room img {
+  max-width: 100%;
+}
+
+/* Static and scanlines */
+.af-mystery-room::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: .19;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.025) 0,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(150,0,0,.02) 0,
+      rgba(150,0,0,.02) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+  mix-blend-mode: screen;
+}
+
+/* Darkness overlay with flashlight hole */
+.af-darkness {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle 175px at var(--mx) var(--my),
+      rgba(0,0,0,0) 0,
+      rgba(0,0,0,.08) 42%,
+      rgba(0,0,0,.64) 69%,
+      rgba(0,0,0,.97) 100%
+    );
+}
+
+/* Warm flashlight glow */
+.af-darkness::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle 220px at var(--mx) var(--my),
+      rgba(255,226,164,.10) 0,
+      rgba(255,226,164,.04) 38%,
+      transparent 72%
+    );
+}
+
+@keyframes af-flicker {
+  0%, 15%, 18%, 22%, 70%, 74%, 100% { opacity: 1; }
+  16%, 21%, 72% { opacity: .38; }
+}
+
+@keyframes af-eye-blink {
+  0%, 42%, 46%, 100% { transform: scaleY(1); opacity: .72; }
+  44% { transform: scaleY(.06); opacity: 1; }
+}
+
+@keyframes af-drift {
+  0%,100% { transform: translateX(-2%) translateY(0); opacity: .10; }
+  50% { transform: translateX(3%) translateY(-8px); opacity: .26; }
+}
+
+@keyframes af-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes af-pulse {
+  0%,100% { box-shadow: 0 0 0 rgba(174,0,0,0); }
+  50% { box-shadow: 0 0 26px rgba(174,0,0,.22); }
+}
+
+@keyframes af-glitch {
+  0%, 92%, 100% { transform: translate(0); text-shadow: 3px 3px 0 #240000, 0 0 10px rgba(255,40,40,.20); }
+  93% { transform: translate(-2px, 1px); text-shadow: 5px 0 #5d0000, -3px 0 #ffffff; }
+  94% { transform: translate(2px, -1px); text-shadow: -5px 0 #930000, 3px 0 #ffffff; }
+  95% { transform: translate(0); }
+}
+
+.af-room-header {
+  position: relative;
+  min-height: 410px;
+  padding: 82px 30px 58px;
+  overflow: hidden;
+  text-align: center;
+  background:
+    linear-gradient(rgba(4,0,0,.30), rgba(0,0,0,.92)),
+    repeating-linear-gradient(
+      90deg,
+      #160404 0,
+      #160404 38px,
+      #0c0101 38px,
+      #0c0101 76px
+    );
+  border-bottom: 1px solid #561111;
+}
+
+.af-room-header::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -85px;
+  height: 170px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(120,0,0,.22), transparent 68%);
+  animation: af-drift 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.af-warning {
+  position: relative;
+  z-index: 4;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: #b87d7d;
+}
+
+.af-title {
+  position: relative;
+  z-index: 4;
+  margin-top: 15px;
+  font-family: Georgia, serif;
+  font-size: 56px;
+  font-weight: bold;
+  letter-spacing: 8px;
+  color: #f0e7e7;
+  text-shadow:
+    3px 3px 0 #240000,
+    0 0 10px rgba(255,40,40,.20);
+  animation:
+    af-flicker 7s linear infinite,
+    af-glitch 11s steps(1,end) infinite;
+}
+
+.af-subtitle {
+  position: relative;
+  z-index: 4;
+  max-width: 610px;
+  margin: 20px auto 0;
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.85;
+  color: #c4aaaa;
+}
+
+.af-eyes {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  gap: 18px;
+  color: #d20000;
+  opacity: .66;
+  filter: blur(.2px);
+}
+
+.af-eyes span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  animation: af-eye-blink 6.8s infinite;
+}
+
+.af-eyes-one { top: 78px; left: 11%; }
+.af-eyes-two { right: 13%; bottom: 78px; transform: scale(.7); }
+.af-eyes-two span { animation-delay: 2.7s; }
+
+.af-tape {
+  padding: 13px 20px;
+  text-align: center;
+  color: #f0dddd;
+  background: #6d0e0e;
+  border-top: 1px solid #a33c3c;
+  border-bottom: 1px solid #2a0000;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.af-blinkie-row {
+  overflow: hidden;
+  background: #020000;
+  border-bottom: 1px solid #3d0909;
+}
+
+.af-blinkie-track {
+  display: flex;
+  width: max-content;
+  animation: af-scroll 26s linear infinite;
+}
+
+.af-blinkie-track img {
+  width: 150px;
+  height: 20px;
+  object-fit: cover;
+  margin: 7px 5px;
+  filter: brightness(.58) saturate(.75) contrast(1.1);
+  transition: filter .2s ease;
+}
+
+.af-blinkie-track img:hover {
+  filter: brightness(1) saturate(1.15);
+}
+
+.af-room-content {
+  position: relative;
+  padding: 30px;
+}
+
+.af-note {
+  position: relative;
+  margin-bottom: 24px;
+  padding: 25px;
+  color: #2a1717;
+  background:
+    linear-gradient(rgba(255,255,255,.08), transparent),
+    #c5b6aa;
+  border: 1px solid #6d5555;
+  box-shadow: 8px 9px 0 rgba(0,0,0,.55);
+  transform: rotate(-.45deg);
+}
+
+.af-note::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 42%;
+  width: 115px;
+  height: 22px;
+  background: rgba(118,65,65,.55);
+  transform: rotate(2deg);
+}
+
+.af-note h2,
+.af-card h3,
+.af-board h2,
+.af-archive h2 {
+  margin: 0 0 12px;
+  font-family: Georgia, serif;
+  font-weight: normal;
+}
+
+.af-note p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.af-hidden-message {
+  margin-top: 14px;
+  color: rgba(112,0,0,.12);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-align: right;
+  transition: color .25s ease, text-shadow .25s ease;
+}
+
+.af-note:hover .af-hidden-message {
+  color: #7f0000;
+  text-shadow: 0 0 5px rgba(127,0,0,.35);
+}
+
+.af-card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.af-card {
+  position: relative;
+  flex: 1 1 225px;
+  min-height: 220px;
+  padding: 22px;
+  overflow: hidden;
+  background: #0e0505;
+  border: 1px solid #4a1111;
+  box-shadow: 7px 8px 0 #020000;
+  transition:
+    transform .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease,
+    filter .28s ease;
+}
+
+.af-card:hover {
+  z-index: 2;
+  transform: translateY(-6px) rotate(.35deg);
+  border-color: #a11f1f;
+  box-shadow:
+    7px 10px 0 #020000,
+    inset 0 0 38px rgba(150,0,0,.11);
+  filter: brightness(1.17);
+}
+
+.af-card::after {
+  content: "RECOVERED";
+  position: absolute;
+  right: -48px;
+  bottom: 20px;
+  padding: 4px 48px;
+  color: rgba(200,30,30,.13);
+  border: 1px solid rgba(200,30,30,.12);
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  transform: rotate(-36deg);
+}
+
+.af-card h3 {
+  color: #d39191;
+  font-size: 21px;
+}
+
+.af-card div {
+  font-size: 13px;
+  line-height: 1.95;
+  color: #d1c3c3;
+}
+
+.af-polaroids {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 26px;
+}
+
+.af-polaroid {
+  display: block;
+  width: 155px;
+  padding: 9px 9px 30px;
+  color: #251717;
+  background: #d0c3ba;
+  box-shadow: 8px 10px 0 rgba(0,0,0,.52);
+  transition: transform .28s ease, filter .28s ease;
+}
+
+.af-polaroid:nth-child(1) { transform: rotate(-4deg); }
+.af-polaroid:nth-child(2) { transform: rotate(3deg); }
+.af-polaroid:nth-child(3) { transform: rotate(-1.5deg); }
+.af-polaroid:nth-child(4) { transform: rotate(4deg); }
+
+.af-polaroid:hover {
+  z-index: 4;
+  transform: rotate(0) scale(1.08);
+  filter: brightness(1.08);
+}
+
+.af-polaroid img {
+  display: block;
+  width: 100%;
+  height: 116px;
+  object-fit: cover;
+  filter: grayscale(.45) contrast(1.12) sepia(.08);
+}
+
+.af-polaroid strong {
+  display: block;
+  margin-top: 9px;
+  text-align: center;
+  font-family: Georgia, serif;
+}
+
+.af-polaroid small {
+  display: block;
+  margin-top: 3px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.af-board,
+.af-archive,
+.af-status {
+  margin-top: 26px;
+  padding: 24px;
+  background: #090303;
+  border: 1px solid #481010;
+}
+
+.af-board {
+  background:
+    linear-gradient(rgba(9,3,3,.91), rgba(9,3,3,.95)),
+    repeating-linear-gradient(
+      35deg,
+      #321515 0,
+      #321515 10px,
+      #251010 10px,
+      #251010 20px
+    );
+}
+
+.af-board h2,
+.af-archive h2 {
+  color: #c68181;
+  text-align: center;
+  font-size: 24px;
+}
+
+.af-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.af-stat {
+  flex: 1 1 150px;
+  padding: 17px;
+  text-align: center;
+  background: #120606;
+  border: 1px solid #531313;
+}
+
+.af-stat span {
+  display: block;
+  color: #9e5b5b;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.af-stat strong {
+  display: block;
+  margin-top: 7px;
+  color: #e1d5d5;
+  font-family: Georgia, serif;
+  font-size: 17px;
+}
+
+.af-stamps {
+  text-align: center;
+}
+
+.af-stamp {
+  display: inline-block;
+  width: 88px;
+  height: 110px;
+  margin: 6px;
+  object-fit: cover;
+  border: 2px solid #6d1b1b;
+  outline: 1px dashed #a64a4a;
+  filter: brightness(.68) saturate(.78);
+  transition: transform .25s ease, filter .25s ease;
+}
+
+.af-stamp:hover {
+  transform: translateY(-6px) rotate(-2deg);
+  filter: brightness(1.08) saturate(1.15);
+}
+
+.af-status {
+  text-align: center;
+  animation: af-pulse 4.7s ease-in-out infinite;
+}
+
+.af-status-label {
+  color: #9a5a5a;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.af-status-title {
+  margin-top: 9px;
+  color: #eadfdf;
+  font-family: Georgia, serif;
+  font-size: 25px;
+}
+
+.af-status-copy {
+  max-width: 620px;
+  margin: 11px auto 0;
+  font-size: 13px;
+  line-height: 1.75;
+  color: #c0aeae;
+}
+
+.af-button {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 11px 18px;
+  color: #f0e5e5;
+  background: #3d0a0a;
+  border: 1px solid #9d3131;
+  box-shadow: 0 4px 0 #050000;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.af-button:hover {
+  transform: translateY(-3px);
+  background: #5d1010;
+}
+
+.af-footer {
+  padding: 22px;
+  text-align: center;
+  color: #956666;
+  background: #020000;
+  border-top: 1px solid #3f0c0c;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+}
+
+
+/* =========================================================
+   EXTRA ART FIGHT-SAFE INTERACTIONS
+   ========================================================= */
+
+@keyframes af-edge-bounce {
+  0%,100% { transform: translateY(0) rotate(-4deg); }
+  42% { transform: translateY(-18px) rotate(4deg); }
+  62% { transform: translateY(-10px) rotate(1deg); }
+}
+
+@keyframes af-soft-reveal {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes af-warning-wiggle {
+  0%,100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg); }
+}
+
+@keyframes af-clue-pulse {
+  0%,100% { opacity: .42; }
+  50% { opacity: 1; }
+}
+
+/* Bouncy figure at the edge */
+.af-edge-figure {
+  position: absolute;
+  right: -8px;
+  bottom: 12px;
+  z-index: 6;
+  width: 122px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.af-edge-figure img {
+  display: block;
+  width: 106px;
+  height: 106px;
+  margin: 0 auto;
+  object-fit: cover;
+  border: 3px solid #b54343;
+  border-radius: 50%;
+  box-shadow: 0 5px 0 #180000, 0 0 20px rgba(180,0,0,.25);
+  filter: grayscale(.35) contrast(1.18) brightness(.78);
+  animation: af-edge-bounce 2.25s ease-in-out infinite;
+}
+
+.af-edge-caption {
+  display: inline-block;
+  margin-top: -3px;
+  padding: 5px 8px;
+  color: #eadfdf;
+  background: #4b0b0b;
+  border: 1px solid #a33131;
+  font-size: 8px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+}
+
+/* Link buttons */
+.af-link-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+.af-link-button {
+  display: inline-block;
+  padding: 10px 14px;
+  color: #eadfdf !important;
+  background: #3d0a0a;
+  border: 1px solid #9d3131;
+  box-shadow: 0 4px 0 #050000;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: transform .18s ease, background .18s ease;
+}
+
+.af-link-button:hover {
+  transform: translateY(-3px);
+  background: #631313;
+}
+
+.af-link-button.alt {
+  color: #2b1717 !important;
+  background: #b9aaa0;
+  border-color: #6d5555;
+}
+
+.af-link-button.secret-link {
+  color: #180000 !important;
+  background: #b53030;
+  border-color: #e06a6a;
+}
+
+/* Toyhouse-style expandable file buttons */
+.af-files {
+  margin-top: 26px;
+}
+
+.af-files > h2 {
+  margin: 0 0 13px;
+  text-align: center;
+  color: #c68181;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.af-file {
+  margin: 8px 0;
+  overflow: hidden;
+  background: #0c0303;
+  border: 1px solid #591313;
+  box-shadow: 5px 6px 0 #020000;
+}
+
+.af-file summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 13px 16px;
+  color: #eadfdf;
+  background: #3a0909;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: background .2s ease, letter-spacing .2s ease;
+}
+
+.af-file summary:hover {
+  background: #5b1010;
+  letter-spacing: 2.4px;
+}
+
+.af-file summary::-webkit-details-marker {
+  display: none;
+}
+
+.af-file summary::before {
+  content: "[+]";
+  display: inline-block;
+  width: 34px;
+  color: #cf7777;
+}
+
+.af-file[open] summary::before {
+  content: "[-]";
+}
+
+.af-file[open] summary {
+  background: #5b1010;
+}
+
+.af-file-content {
+  padding: 19px;
+  color: #d0c3c3;
+  font-size: 13px;
+  line-height: 1.85;
+  animation: af-soft-reveal .25s ease;
+}
+
+.af-file-content h3 {
+  margin: 0 0 9px;
+  color: #d39191;
+  font-family: Georgia, serif;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+.af-file-content p {
+  margin: 9px 0;
+}
+
+.af-tag {
+  display: inline-block;
+  margin: 3px;
+  padding: 5px 8px;
+  color: #e7dede;
+  background: #240606;
+  border: 1px solid #6b1919;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Character blind box */
+.af-blind-box {
+  margin-top: 26px;
+  padding: 22px;
+  text-align: center;
+  background:
+    linear-gradient(rgba(9,3,3,.91),rgba(9,3,3,.96)),
+    repeating-linear-gradient(45deg,#381515 0,#381515 8px,#1d0909 8px,#1d0909 16px);
+  border: 1px dashed #a13a3a;
+  box-shadow: 7px 8px 0 #020000;
+}
+
+.af-blind-box summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  padding: 12px 17px;
+  color: #efe2e2;
+  background: #5c1010;
+  border: 1px solid #c35151;
+  box-shadow: 0 4px 0 #090000;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: af-warning-wiggle 2.7s ease-in-out infinite;
+}
+
+.af-blind-box summary::-webkit-details-marker {
+  display: none;
+}
+
+.af-blind-box[open] summary {
+  animation: none;
+}
+
+.af-blind-result {
+  max-width: 570px;
+  margin: 18px auto 0;
+  padding: 18px;
+  color: #2a1717;
+  background: #c5b6aa;
+  border: 1px solid #705555;
+  box-shadow: 5px 6px 0 rgba(0,0,0,.55);
+  animation: af-soft-reveal .3s ease;
+}
+
+.af-blind-result img {
+  width: 148px;
+  height: 148px;
+  object-fit: cover;
+  border: 5px solid #ded2ca;
+  box-shadow: 0 0 0 1px #6d5555;
+  filter: grayscale(.42) contrast(1.12);
+}
+
+.af-blind-result h3 {
+  margin: 12px 0 7px;
+  color: #670e0e;
+  font-family: Georgia, serif;
+  font-size: 23px;
+  font-weight: normal;
+}
+
+/* Progressive flavour-text case file */
+.af-case-story {
+  margin-top: 28px;
+}
+
+.af-case-story > h2 {
+  margin: 0 0 18px;
+  text-align: center;
+  color: #c68181;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.af-case-step {
+  position: relative;
+  margin: 0 0 17px 25px;
+  padding: 20px 20px 20px 24px;
+  color: #cdbebe;
+  background: #0b0303;
+  border-left: 4px solid #741919;
+  box-shadow: 6px 7px 0 #020000;
+}
+
+.af-case-step::before {
+  content: "●";
+  position: absolute;
+  left: -31px;
+  top: 20px;
+  width: 26px;
+  height: 26px;
+  line-height: 23px;
+  text-align: center;
+  color: #d02020;
+  background: #090000;
+  border: 1px solid #8d2424;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(200,0,0,.25);
+}
+
+.af-case-label {
+  color: #915151;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.af-case-step h3 {
+  margin: 6px 0 9px;
+  color: #d39191;
+  font-family: Georgia, serif;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+.af-case-step p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+/* Secret */
+.af-secret {
+  margin-top: 26px;
+  text-align: center;
+  opacity: .28;
+  transition: opacity .25s ease;
+}
+
+.af-secret:hover,
+.af-secret[open] {
+  opacity: 1;
+}
+
+.af-secret summary {
+  cursor: pointer;
+  list-style: none;
+  display: inline-block;
+  color: #a46a6a;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: af-clue-pulse 3.2s ease-in-out infinite;
+}
+
+.af-secret summary::-webkit-details-marker {
+  display: none;
+}
+
+.af-secret-content {
+  max-width: 540px;
+  margin: 13px auto 0;
+  padding: 18px;
+  color: #d8caca;
+  background: #160404;
+  border: 1px dashed #a03a3a;
+  box-shadow: inset 0 0 30px rgba(130,0,0,.12);
+  animation: af-soft-reveal .3s ease;
+}
+
+@media (max-width: 600px) {
+  .af-edge-figure {
+    right: -5px;
+    bottom: 7px;
+    width: 88px;
+  }
+
+  .af-edge-figure img {
+    width: 76px;
+    height: 76px;
+  }
+
+  .af-edge-caption {
+    font-size: 6px;
+  }
+}
+
+@media (max-width: 600px) {
+  .af-room-header {
+    min-height: 340px;
+    padding: 64px 20px 44px;
+  }
+
+  .af-title {
+    font-size: 40px;
+    letter-spacing: 5px;
+  }
+
+  .af-room-content {
+    padding: 20px;
+  }
+
+  .af-darkness {
+    background:
+      radial-gradient(
+        circle 135px at var(--mx) var(--my),
+        rgba(0,0,0,0) 0,
+        rgba(0,0,0,.1) 42%,
+        rgba(0,0,0,.72) 70%,
+        rgba(0,0,0,.98) 100%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-mystery-room *,
+  .af-mystery-room *::before,
+  .af-mystery-room *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
+<div class="af-mystery-room" id="afMysteryRoom">
+
+  <div class="af-darkness"></div>
+
+  <header class="af-room-header">
+    <div class="af-eyes af-eyes-one"><span></span><span></span></div>
+    <div class="af-eyes af-eyes-two"><span></span><span></span></div>
+
+    <div class="af-warning">Signal acquired · Light source unstable</div>
+    <div class="af-title">MYSTERY</div>
+    <div class="af-subtitle">
+      Keep the beam steady. Some things only exist when you are not looking directly at them.
+    </div>
+
+    <!-- Replace this with a transparent character or mascot image. -->
+    <div class="af-edge-figure">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="[Mascot name] watching from the edge">
+      <div class="af-edge-caption">subject is watching</div>
+    </div>
+
+  </header>
+
+  <div class="af-tape">
+    Camera 04 · Signal unstable · Do not enter alone
+  </div>
+
+  <div class="af-blinkie-row">
+    <div class="af-blinkie-track">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+      <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="blinkie">
+    </div>
+  </div>
+
+  <main class="af-room-content">
+
+    <section class="af-note">
+      <h2>Last Journal Entry</h2>
+      <p>
+        This profile contains missing memories, suspicious figures, unexplained creatures,
+        secret identities, strange symbols, redacted histories, and doors that were definitely
+        not open a moment ago.
+      </p>
+      <p style="margin-top:14px">
+        Atmospheric portraits, dim lighting, fog, flashlights, silhouettes, abandoned rooms,
+        eerie stillness, old photographs, and unsettling calm are extremely welcome.
+      </p>
+      <div class="af-hidden-message">DON'T TURN AROUND.</div>
+
+      <div class="af-link-grid">
+        <a class="af-link-button" href="[YOUR_CHARACTER_GALLERY_URL]">Case Files</a>
+        <a class="af-link-button alt" href="[YOUR_PERMISSIONS_URL]">Rules & Permissions</a>
+        <a class="af-link-button" href="[YOUR_TOYHOUSE_OR_SOCIAL_URL]">External Archive</a>
+        <a class="af-link-button secret-link" href="[YOUR_PROFILE_SONG_URL]">Play Recovered Audio ♫</a>
+      </div>
+
+    </section>
+
+    <section class="af-card-grid">
+      <article class="af-card">
+        <h3>What I Love</h3>
+        <div>
+          ◇ Dark environments<br>
+          ◇ Flashlight lighting<br>
+          ◇ Found-footage framing<br>
+          ◇ Fog and silhouettes<br>
+          ◇ Unseen threats<br>
+          ◇ Occult symbols
+        </div>
+      </article>
+
+      <article class="af-card">
+        <h3>Possible Encounters</h3>
+        <div>
+          ◇ Abandoned facilities<br>
+          ◇ Forests after midnight<br>
+          ◇ Locked basements<br>
+          ◇ Secret corridors<br>
+          ◇ Unmarked tapes<br>
+          ◇ Something in the doorway
+        </div>
+      </article>
+
+      <article class="af-card">
+        <h3>Restricted Material</h3>
+        <div>
+          ◇ AI-generated artwork<br>
+          ◇ Tracing or theft<br>
+          ◇ Major redesigns<br>
+          ◇ Unapproved shipping<br>
+          ◇ Explicit content<br>
+          ◇ Removing key traits
+        </div>
+      </article>
+    </section>
+
+
+    <!-- TOYHOUSE-STYLE INFORMATION FILES -->
+    <section class="af-files">
+      <h2>Restricted Personnel Files</h2>
+
+      <details class="af-file" open>
+        <summary>Profile / About the Investigator</summary>
+        <div class="af-file-content">
+          <h3>Identity Partially Recovered</h3>
+          <p>
+            Known alias: <strong>[NAME OR USERNAME]</strong>. Primary activity:
+            <strong>[WHAT YOU DRAW]</strong>. Most frequently observed drawing
+            <strong>[FAVOURITE SUBJECTS OR THEMES]</strong>.
+          </p>
+          <p>
+            <span class="af-tag">[Pronouns]</span>
+            <span class="af-tag">[Timezone]</span>
+            <span class="af-tag">[Digital / Traditional]</span>
+            <span class="af-tag">[Art Fight Team]</span>
+          </p>
+        </div>
+      </details>
+
+      <details class="af-file">
+        <summary>Likes / Dislikes / Personality</summary>
+        <div class="af-file-content">
+          <h3>Behavioural Assessment</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:18px">
+            <div style="flex:1 1 220px">
+              <strong style="color:#b96c6c">FAVOURED EVIDENCE</strong><br>
+              ◇ [Favourite trope]<br>
+              ◇ [Favourite colour or palette]<br>
+              ◇ [Favourite creature]<br>
+              ◇ [Favourite visual motif]
+            </div>
+            <div style="flex:1 1 220px">
+              <strong style="color:#b96c6c">RESTRICTED MATERIAL</strong><br>
+              ◇ [Hard no]<br>
+              ◇ [Design pet peeve]<br>
+              ◇ [Unwanted theme]<br>
+              ◇ [Other boundary]
+            </div>
+          </div>
+          <p>
+            <strong>Personality report:</strong>
+            [Describe your personality or profile persona. A mysterious contradiction works well here.]
+          </p>
+        </div>
+      </details>
+
+      <details class="af-file">
+        <summary>Reference / Design Evidence</summary>
+        <div class="af-file-content">
+          <h3>Do Not Alter the Evidence</h3>
+          <p>
+            <strong>Must remain intact:</strong> [Markings, body shape, scars, accessories, eye details.]<br>
+            <strong>Artist discretion:</strong> [Outfits, hairstyles, props, lighting, palette shifts.]<br>
+            <strong>Authorisation required:</strong> [Species swaps, major redesigns, gore, shipping.]
+          </p>
+          <a class="af-link-button alt" href="[REFERENCE_SHEET_URL]">Examine Reference Sheet</a>
+        </div>
+      </details>
+
+      <details class="af-file">
+        <summary>Relationships / Known Associates</summary>
+        <div class="af-file-content">
+          <h3>Connection Map</h3>
+          <p>
+            My characters may interact with yours. Rivals, reluctant allies, investigators,
+            witnesses, suspicious strangers, paranormal encounters, and people trapped in
+            the same terrible building are welcome.
+          </p>
+          <p>
+            <strong>Highlighted connection:</strong>
+            <a href="[CHARACTER_ONE_URL]">[Character One]</a> +
+            <a href="[CHARACTER_TWO_URL]">[Character Two]</a> —
+            [one-line relationship or dynamic].
+          </p>
+        </div>
+      </details>
+    </section>
+
+    <!-- CHARACTER BLIND BOX -->
+    <details class="af-blind-box">
+      <summary>Retrieve an Unmarked Character File</summary>
+      <div class="af-blind-result">
+        <!-- True random selection requires JavaScript.
+             Change this featured character manually whenever desired. -->
+        <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="[Blind-box character name]">
+        <h3>File Recovered: [CHARACTER NAME]</h3>
+        <p style="margin:0 0 15px;line-height:1.75">
+          [One-sentence character hook, one interesting visual detail, and one suggested attack scenario.]
+        </p>
+        <a class="af-link-button secret-link" href="[BLIND_BOX_CHARACTER_URL]">Investigate This Character</a>
+      </div>
+    </details>
+
+    <!-- SCROLLING FLAVOUR-TEXT STORY -->
+    <section class="af-case-story">
+      <h2>Incident Log · Read in Order</h2>
+
+      <article class="af-case-step">
+        <div class="af-case-label">Entry 01 · 23:41</div>
+        <h3>The Transmission Begins</h3>
+        <p>
+          The recording opens on an empty corridor. The camera operator whispers that
+          the building was abandoned years ago. A light switches on at the far end.
+        </p>
+      </article>
+
+      <article class="af-case-step">
+        <div class="af-case-label">Entry 02 · 23:56</div>
+        <h3>Someone Added a Name</h3>
+        <p>
+          A personnel file appears where there was only dust. The photograph is yours.
+          The date beneath it is tomorrow.
+        </p>
+      </article>
+
+      <article class="af-case-step">
+        <div class="af-case-label">Entry 03 · 00:13</div>
+        <h3>The Subjects Are Moving</h3>
+        <p>
+          Every character portrait on the evidence wall has turned slightly towards the
+          camera. One frame is empty. Footsteps begin directly behind the microphone.
+        </p>
+      </article>
+
+      <article class="af-case-step">
+        <div class="af-case-label">Entry 04 · Timecode Missing</div>
+        <h3>You Were Expected</h3>
+        <p>
+          The final door opens by itself. Inside is a desk, a blank sheet of paper, and a
+          note: “Choose a subject. Draw what happened next.”
+        </p>
+      </article>
+    </section>
+
+
+    <section class="af-board">
+      <h2>Evidence Wall · Friends & Favourites</h2>
+
+      <div class="af-polaroids">
+        <a class="af-polaroid" href="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg">
+          <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+
+        <a class="af-polaroid" href="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg">
+          <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+
+        <a class="af-polaroid" href="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg">
+          <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+
+        <a class="af-polaroid" href="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg">
+          <img src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="af-archive">
+      <h2>Art Fight Card</h2>
+
+      <div class="af-card-stats">
+        <div class="af-stat">
+          <span>Revenge</span>
+          <strong>[Yes / Selective]</strong>
+        </div>
+
+        <div class="af-stat">
+          <span>Friendly Fire</span>
+          <strong>[Welcome]</strong>
+        </div>
+
+        <div class="af-stat">
+          <span>Mass Attacks</span>
+          <strong>[Accepted]</strong>
+        </div>
+
+        <div class="af-stat">
+          <span>Character Types</span>
+          <strong>[Humans · Anthros · Monsters]</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="af-archive">
+      <h2>Tape Storage · Former Teams</h2>
+
+      <div class="af-stamps">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="2025 team stamp" title="2025 — [Team Name]">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="2024 team stamp" title="2024 — [Team Name]">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="2023 team stamp" title="2023 — [Team Name]">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="2022 team stamp" title="2022 — [Team Name]">
+      </div>
+
+      <div style="margin-top:12px;text-align:center;font-size:12px;line-height:1.8;color:#9c6f6f">
+        2025 — [Team] · 2024 — [Team] · 2023 — [Team] · 2022 — [Team]
+      </div>
+    </section>
+
+    <section class="af-archive">
+      <h2>Recovered Items</h2>
+
+      <div class="af-stamps">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="stamp">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="stamp">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="stamp">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="stamp">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="stamp">
+        <img class="af-stamp" src="https://i.pinimg.com/736x/0f/68/94/0f6894e539589a50809e45833c8bb6c4.jpg" alt="stamp">
+      </div>
+    </section>
+
+
+    <!-- HIDDEN SECRET -->
+    <details class="af-secret">
+      <summary>Audio fragment 00:00:00 — corrupted</summary>
+      <div class="af-secret-content">
+        <div style="color:#d39191;font-family:Georgia,serif;font-size:22px">
+          SECRET FILE DECRYPTED
+        </div>
+        <p style="margin:10px 0 15px;font-size:13px;line-height:1.8">
+          The thing in the hallway was never following the investigator.
+          It was following <strong>you</strong>. Your reward:
+          [secret lore, bonus prompt, alternate character, joke, or hidden artwork].
+        </p>
+        <a class="af-link-button secret-link" href="[SECRET_URL]">Open the Last Door</a>
+      </div>
+    </details>
+
+
+    <section class="af-status">
+      <div class="af-status-label">Last Transmission</div>
+      <div class="af-status-title">Attacks Open · Revenge Selective</div>
+      <div class="af-status-copy">
+        Friendly fire and mass attacks are accepted. Revenge depends on time,
+        energy, inspiration, and whether your transmission reaches me intact.
+      </div>
+
+      <a class="af-button" href="[MYSTERY_CHARACTER_LINK]">
+        Enter Restricted Access
+      </a>
+    </section>
+
+  </main>
+
+  <footer class="af-footer">
+    If the light begins flickering, do not stop moving.
+  </footer>
+</div>
+
+<script>
+(function () {
+  var room = document.getElementById("afMysteryRoom");
+  if (!room) return;
+
+  function moveLight(event) {
+    var rect = room.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
+
+    room.style.setProperty("--mx", x + "px");
+    room.style.setProperty("--my", y + "px");
+  }
+
+  function touchLight(event) {
+    if (!event.touches || !event.touches.length) return;
+
+    var rect = room.getBoundingClientRect();
+    var x = event.touches[0].clientX - rect.left;
+    var y = event.touches[0].clientY - rect.top;
+
+    room.style.setProperty("--mx", x + "px");
+    room.style.setProperty("--my", y + "px");
+  }
+
+  room.addEventListener("mousemove", moveLight);
+  room.addEventListener("touchmove", touchLight, { passive: true });
+})();
+</script>

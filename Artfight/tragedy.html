@@ -1,0 +1,884 @@
+<!-- TRAGEDY — BLUE MOURNING / DROWNED THEATRE ART FIGHT PROFILE
+     Replace every [PLACEHOLDER] before posting.
+     Designed as a standalone profile with inline CSS.
+-->
+
+<style>
+.af-tragedy-blue,
+.af-tragedy-blue * {
+  box-sizing: border-box;
+}
+
+.af-tragedy-blue {
+  max-width: 900px;
+  margin: 24px auto;
+  overflow: hidden;
+  color: #dbe4f2;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(42,72,125,.16), transparent 28%),
+    linear-gradient(#050914, #02040a 55%, #070b17);
+  border: 1px solid #25375d;
+  font-family: Georgia, "Times New Roman", serif;
+  box-shadow:
+    0 0 0 7px #080d1d,
+    0 24px 55px rgba(0,0,0,.78);
+}
+
+.af-tragedy-blue a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.af-tragedy-blue img {
+  max-width: 100%;
+}
+
+@keyframes tragedy-breathe {
+  0%,100% {
+    transform: scale(1);
+    text-shadow: 3px 3px 0 #050816, 0 0 10px rgba(136,166,220,.16);
+  }
+  50% {
+    transform: scale(1.02);
+    text-shadow: 3px 3px 0 #050816, 0 0 30px rgba(136,166,220,.38);
+  }
+}
+
+@keyframes tragedy-rain {
+  0% {
+    transform: translateY(-70px);
+    opacity: 0;
+  }
+  15% {
+    opacity: .5;
+  }
+  100% {
+    transform: translateY(470px);
+    opacity: 0;
+  }
+}
+
+@keyframes tragedy-fade {
+  0%,100% { opacity: .58; }
+  50% { opacity: 1; }
+}
+
+@keyframes tragedy-drift {
+  0%,100% { transform: translateX(-2%) translateY(0); opacity: .10; }
+  50% { transform: translateX(3%) translateY(-10px); opacity: .25; }
+}
+
+@keyframes tragedy-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes tragedy-flicker {
+  0%, 18%, 22%, 72%, 75%, 100% { opacity: 1; }
+  20%, 74% { opacity: .45; }
+}
+
+.tragedy-header {
+  position: relative;
+  min-height: 410px;
+  padding: 76px 28px 58px;
+  overflow: hidden;
+  text-align: center;
+  background:
+    linear-gradient(rgba(5,9,20,.18), rgba(2,4,10,.82)),
+    linear-gradient(
+      90deg,
+      #09142d 0%,
+      #10254d 18%,
+      #071127 38%,
+      #132a55 58%,
+      #071125 78%,
+      #0d2246 100%
+    );
+  border-bottom: 4px solid #627aa8;
+}
+
+.tragedy-header::before {
+  content: "";
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -90px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(95,124,181,.23), transparent 68%);
+  animation: tragedy-drift 8.5s ease-in-out infinite;
+}
+
+.tragedy-curtain-left,
+.tragedy-curtain-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 21%;
+  opacity: .82;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #0b1732 0,
+      #18315f 18px,
+      #09142d 36px
+    );
+  box-shadow: inset 0 0 28px rgba(0,0,0,.55);
+}
+
+.tragedy-curtain-left {
+  left: 0;
+  clip-path: polygon(0 0,100% 0,76% 100%,0 100%);
+}
+
+.tragedy-curtain-right {
+  right: 0;
+  clip-path: polygon(0 0,100% 0,100% 100%,24% 100%);
+}
+
+.tragedy-top-rail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 17px;
+  background: #7388b2;
+  box-shadow: 0 4px 0 #27395f;
+}
+
+.tragedy-drop {
+  position: absolute;
+  top: -40px;
+  z-index: 3;
+  color: #9db4dd;
+  font-size: 15px;
+  pointer-events: none;
+  animation: tragedy-rain 7s linear infinite;
+}
+
+.tragedy-drop-a { left: 10%; animation-delay: 0s; }
+.tragedy-drop-b { left: 27%; animation-delay: 2s; animation-duration: 8.3s; }
+.tragedy-drop-c { left: 48%; animation-delay: 4s; animation-duration: 7.4s; }
+.tragedy-drop-d { left: 70%; animation-delay: 1s; animation-duration: 9s; }
+.tragedy-drop-e { left: 89%; animation-delay: 3.2s; animation-duration: 6.8s; }
+
+.tragedy-header-content {
+  position: relative;
+  z-index: 4;
+}
+
+.tragedy-kicker {
+  color: #8fa7d1;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+}
+
+.tragedy-title {
+  display: inline-block;
+  margin-top: 12px;
+  color: #edf3ff;
+  font-size: 54px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  animation: tragedy-breathe 5s ease-in-out infinite;
+}
+
+.tragedy-subtitle {
+  max-width: 590px;
+  margin: 18px auto 0;
+  color: #b8c6de;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.85;
+}
+
+.tragedy-act {
+  padding: 13px 20px;
+  text-align: center;
+  color: #091126;
+  background: #7088b7;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.tragedy-blinkie-row {
+  overflow: hidden;
+  background: #030610;
+  border-top: 1px solid #2b3d63;
+  border-bottom: 1px solid #2b3d63;
+}
+
+.tragedy-blinkie-track {
+  display: flex;
+  width: max-content;
+  animation: tragedy-scroll 28s linear infinite;
+}
+
+.tragedy-blinkie-track img {
+  width: 150px;
+  height: 20px;
+  margin: 7px 5px;
+  object-fit: cover;
+  filter: brightness(.68) saturate(.65);
+  transition: filter .25s ease;
+}
+
+.tragedy-blinkie-track img:hover {
+  filter: brightness(1) saturate(1);
+}
+
+.tragedy-content {
+  padding: 30px;
+}
+
+.tragedy-card {
+  transition: transform .35s ease, box-shadow .35s ease, filter .35s ease;
+}
+
+.tragedy-card:hover {
+  transform: translateY(-6px);
+  filter: brightness(1.08);
+  box-shadow:
+    0 15px 28px rgba(0,0,0,.42),
+    inset 0 0 24px rgba(103,137,196,.10);
+}
+
+.tragedy-opening {
+  padding: 26px;
+  text-align: center;
+  background: #0b1225;
+  border: 1px solid #2d416b;
+  box-shadow:
+    inset 0 0 0 5px #050914,
+    8px 8px 0 #010207;
+}
+
+.tragedy-opening h2 {
+  margin: 0 0 14px;
+  color: #b8c9e8;
+  font-size: 29px;
+  font-weight: normal;
+}
+
+.tragedy-opening p {
+  max-width: 700px;
+  margin: 0 auto;
+  color: #c2ccdd;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.95;
+}
+
+.tragedy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+  margin-top: 24px;
+}
+
+.tragedy-panel {
+  flex: 1 1 230px;
+  padding: 22px;
+  background: #0d1730;
+  border-bottom: 4px solid #42649c;
+}
+
+.tragedy-panel:nth-child(2) {
+  background: #11182d;
+  border-bottom-color: #6679a4;
+}
+
+.tragedy-panel:nth-child(3) {
+  background: #09131f;
+  border-bottom-color: #345b7c;
+}
+
+.tragedy-panel h3 {
+  margin: 0 0 11px;
+  color: #a9c1ea;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+.tragedy-panel:nth-child(2) h3 {
+  color: #c1c9e1;
+}
+
+.tragedy-panel:nth-child(3) h3 {
+  color: #9bbdd4;
+}
+
+.tragedy-panel div {
+  color: #c5cede;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+.tragedy-quote-box {
+  margin-top: 25px;
+  padding: 35px 25px;
+  text-align: center;
+  background:
+    radial-gradient(circle at center, #182d57, #080d1d 72%);
+  border-top: 1px solid #4b6496;
+  border-bottom: 1px solid #4b6496;
+}
+
+.tragedy-quote-mark {
+  color: #7893c6;
+  font-size: 43px;
+  line-height: 1;
+}
+
+.tragedy-quote {
+  max-width: 630px;
+  margin: -4px auto 0;
+  color: #e1e8f4;
+  font-size: 21px;
+  font-style: italic;
+  line-height: 1.75;
+  animation: tragedy-fade 4.2s ease-in-out infinite;
+}
+
+.tragedy-permissions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+  margin-top: 24px;
+}
+
+.tragedy-permission {
+  flex: 1 1 290px;
+  padding: 22px;
+  background: #0d1529;
+  border-left: 4px solid #7289b5;
+}
+
+.tragedy-permission:nth-child(2) {
+  border-left-color: #425b86;
+}
+
+.tragedy-permission h3 {
+  margin: 0 0 10px;
+  color: #b3c5e5;
+  font-size: 21px;
+  font-weight: normal;
+}
+
+.tragedy-permission div {
+  color: #c6cfde;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.95;
+}
+
+.tragedy-board,
+.tragedy-archive {
+  margin-top: 24px;
+  padding: 23px;
+  background: #080e1d;
+  border: 1px solid #2d416b;
+}
+
+.tragedy-board h2,
+.tragedy-archive h2 {
+  margin: 0;
+  text-align: center;
+  color: #a9bee2;
+  font-size: 25px;
+  font-weight: normal;
+}
+
+.tragedy-polaroids {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.tragedy-polaroid {
+  display: block;
+  width: 140px;
+  padding: 9px 9px 28px;
+  color: #1b2334;
+  background: #cbd3df;
+  box-shadow: 8px 9px 0 rgba(0,0,0,.5);
+  transition: transform .3s ease, filter .3s ease;
+}
+
+.tragedy-polaroid:nth-child(1) { transform: rotate(-3deg); }
+.tragedy-polaroid:nth-child(2) { transform: rotate(2deg); }
+.tragedy-polaroid:nth-child(3) { transform: rotate(-1deg); }
+.tragedy-polaroid:nth-child(4) { transform: rotate(3deg); }
+
+.tragedy-polaroid:hover {
+  transform: rotate(0) translateY(-6px);
+  filter: brightness(1.08);
+}
+
+.tragedy-polaroid img {
+  display: block;
+  width: 100%;
+  height: 112px;
+  object-fit: cover;
+  filter: grayscale(.32) contrast(1.05);
+}
+
+.tragedy-polaroid strong,
+.tragedy-polaroid small {
+  display: block;
+  text-align: center;
+}
+
+.tragedy-polaroid strong {
+  margin-top: 8px;
+}
+
+.tragedy-polaroid small {
+  margin-top: 3px;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.tragedy-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.tragedy-stat {
+  flex: 1 1 150px;
+  padding: 16px;
+  text-align: center;
+  background: #0d1730;
+  border: 1px solid #354d7b;
+}
+
+.tragedy-stat span {
+  display: block;
+  color: #8ea6cf;
+  font-family: Arial, sans-serif;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.tragedy-stat strong {
+  display: block;
+  margin-top: 7px;
+  color: #e2e9f5;
+  font-size: 17px;
+}
+
+.tragedy-stamps {
+  margin-top: 13px;
+  text-align: center;
+}
+
+.tragedy-stamp {
+  display: inline-block;
+  width: 88px;
+  height: 110px;
+  margin: 6px;
+  object-fit: cover;
+  border: 2px solid #566f9f;
+  outline: 1px dashed #8da5ce;
+  filter: brightness(.72) saturate(.62);
+  transition: transform .3s ease, filter .3s ease;
+}
+
+.tragedy-stamp:hover {
+  transform: translateY(-6px) rotate(-2deg);
+  filter: brightness(1.08) saturate(1);
+}
+
+.tragedy-status {
+  margin-top: 25px;
+  padding: 25px;
+  text-align: center;
+  color: #e8eef8;
+  background: #14264a;
+  border: 3px double #8299c4;
+}
+
+.tragedy-status-label {
+  color: #a9bbd8;
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.tragedy-status-title {
+  margin-top: 8px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.tragedy-status-copy {
+  max-width: 630px;
+  margin: 10px auto 0;
+  color: #c5d0e2;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.tragedy-button {
+  display: inline-block;
+  margin-top: 17px;
+  padding: 10px 18px;
+  color: #edf3ff;
+  background: #071127;
+  border: 1px solid #91a6ce;
+  box-shadow: 0 4px 0 #02040b;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: transform .25s ease, background .25s ease;
+}
+
+.tragedy-button:hover {
+  transform: translateY(-3px);
+  background: #112750;
+}
+
+.tragedy-ending {
+  padding: 24px;
+  text-align: center;
+  color: #9dacC8;
+  background: #030610;
+  border-top: 1px solid #2d416b;
+  font-size: 17px;
+  font-style: italic;
+}
+
+.tragedy-profile-footer {
+  margin-top: 18px;
+  padding: 25px;
+  text-align: center;
+  color: #d7deeb;
+  background: #080d19;
+  border: 1px solid #26395e;
+  box-shadow: 0 10px 24px rgba(0,0,0,.4);
+}
+
+.tragedy-profile-footer h2 {
+  margin: 0;
+  color: #f2f5fb;
+  font-size: 23px;
+}
+
+.tragedy-profile-footer p {
+  margin: 9px 0 0;
+  color: #9eabc2;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.tragedy-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+@media (max-width: 600px) {
+  .tragedy-header {
+    min-height: 350px;
+    padding: 65px 20px 48px;
+  }
+
+  .tragedy-title {
+    font-size: 41px;
+    letter-spacing: 3px;
+  }
+
+  .tragedy-content {
+    padding: 20px;
+  }
+
+  .tragedy-curtain-left,
+  .tragedy-curtain-right {
+    width: 27%;
+    opacity: .55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .af-tragedy-blue *,
+  .af-tragedy-blue *::before,
+  .af-tragedy-blue *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
+<div class="af-tragedy-blue">
+
+  <header class="tragedy-header">
+    <div class="tragedy-top-rail"></div>
+    <div class="tragedy-curtain-left"></div>
+    <div class="tragedy-curtain-right"></div>
+
+    <span class="tragedy-drop tragedy-drop-a">│</span>
+    <span class="tragedy-drop tragedy-drop-b">│</span>
+    <span class="tragedy-drop tragedy-drop-c">│</span>
+    <span class="tragedy-drop tragedy-drop-d">│</span>
+    <span class="tragedy-drop tragedy-drop-e">│</span>
+
+    <div class="tragedy-header-content">
+      <div class="tragedy-kicker">The final scene was never meant to be survived</div>
+
+      <div class="tragedy-title">TRAGEDY</div>
+
+      <div class="tragedy-subtitle">
+        Some stories do not end with closure. They simply grow quieter,
+        until grief is the only voice left in the room.
+      </div>
+    </div>
+  </header>
+
+  <div class="tragedy-act">
+    Act III · The rain continues after everyone has gone
+  </div>
+
+  <div class="tragedy-blinkie-row">
+    <div class="tragedy-blinkie-track">
+      <img src="[BLINKIE_URL_1]" alt="blinkie">
+      <img src="[BLINKIE_URL_2]" alt="blinkie">
+      <img src="[BLINKIE_URL_3]" alt="blinkie">
+      <img src="[BLINKIE_URL_4]" alt="blinkie">
+      <img src="[BLINKIE_URL_1]" alt="blinkie">
+      <img src="[BLINKIE_URL_2]" alt="blinkie">
+      <img src="[BLINKIE_URL_3]" alt="blinkie">
+      <img src="[BLINKIE_URL_4]" alt="blinkie">
+    </div>
+  </div>
+
+  <main class="tragedy-content">
+
+    <section class="tragedy-opening tragedy-card">
+      <h2>A Record of Those Who Could Not Be Saved</h2>
+      <p>
+        These characters carry grief like a second shadow: old wounds, broken promises,
+        survivor's guilt, ruined loyalties, unanswered letters, and love that arrived too late.
+        Quiet sorrow, emotional scenes, symbolic imagery, battle damage, rain, empty rooms,
+        and the aftermath of irreversible choices are deeply welcome.
+      </p>
+    </section>
+
+    <section class="tragedy-grid">
+      <article class="tragedy-panel tragedy-card">
+        <h3>Favoured Sorrows</h3>
+        <div>
+          † Loss without closure<br>
+          † Sacrifice remembered too late<br>
+          † Ruined relationships<br>
+          † Impossible choices<br>
+          † Haunted memories<br>
+          † Bittersweet reunions
+        </div>
+      </article>
+
+      <article class="tragedy-panel tragedy-card">
+        <h3>Visual Motifs</h3>
+        <div>
+          † Rain against windows<br>
+          † Empty hospital rooms<br>
+          † Wilted blue flowers<br>
+          † Unsent letters<br>
+          † Broken reflections<br>
+          † Dawn after disaster
+        </div>
+      </article>
+
+      <article class="tragedy-panel tragedy-card">
+        <h3>Ask Before Using</h3>
+        <div>
+          † Character death<br>
+          † Permanent injuries<br>
+          † Heavy body horror<br>
+          † Romantic pairings<br>
+          † Major redesigns<br>
+          † Explicit material
+        </div>
+      </article>
+    </section>
+
+    <section class="tragedy-quote-box">
+      <div class="tragedy-quote-mark">“</div>
+      <div class="tragedy-quote">
+        Draw them in the moment after hope has left—
+        when they are still standing only because they have forgotten how to fall.
+      </div>
+    </section>
+
+    <section class="tragedy-permissions">
+      <article class="tragedy-permission tragedy-card">
+        <h3>Welcomed</h3>
+        <div>
+          ✦ Intense expressions<br>
+          ✦ Battle aftermaths<br>
+          ✦ Emotional interactions<br>
+          ✦ Symbolic compositions<br>
+          ✦ Alternate outfits<br>
+          ✦ Gore within character limits
+        </div>
+      </article>
+
+      <article class="tragedy-permission tragedy-card">
+        <h3>Not Permitted</h3>
+        <div>
+          ✦ AI-generated artwork<br>
+          ✦ Tracing or theft<br>
+          ✦ Hate imagery<br>
+          ✦ Unapproved explicit art<br>
+          ✦ Removing defining traits<br>
+          ✦ Mocking serious themes
+        </div>
+      </article>
+    </section>
+
+    <section class="tragedy-board">
+      <h2>Names Left in the Programme</h2>
+
+      <div class="tragedy-polaroids">
+        <a class="tragedy-polaroid" href="[FRIEND_OR_CHARACTER_LINK_1]">
+          <img src="[FRIEND_OR_CHARACTER_IMAGE_1]" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+
+        <a class="tragedy-polaroid" href="[FRIEND_OR_CHARACTER_LINK_2]">
+          <img src="[FRIEND_OR_CHARACTER_IMAGE_2]" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+
+        <a class="tragedy-polaroid" href="[FRIEND_OR_CHARACTER_LINK_3]">
+          <img src="[FRIEND_OR_CHARACTER_IMAGE_3]" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+
+        <a class="tragedy-polaroid" href="[FRIEND_OR_CHARACTER_LINK_4]">
+          <img src="[FRIEND_OR_CHARACTER_IMAGE_4]" alt="[Name]">
+          <strong>[Name]</strong>
+          <small>[Friend / Favourite]</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="tragedy-archive">
+      <h2>Art Fight Playbill</h2>
+
+      <div class="tragedy-stats">
+        <div class="tragedy-stat">
+          <span>Revenge</span>
+          <strong>[Yes / Selective]</strong>
+        </div>
+
+        <div class="tragedy-stat">
+          <span>Friendly Fire</span>
+          <strong>[Welcome]</strong>
+        </div>
+
+        <div class="tragedy-stat">
+          <span>Mass Attacks</span>
+          <strong>[Accepted]</strong>
+        </div>
+
+        <div class="tragedy-stat">
+          <span>Character Types</span>
+          <strong>[Humans · Anthros · Monsters]</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="tragedy-archive">
+      <h2>Flowers Left After Previous Performances</h2>
+
+      <div class="tragedy-stamps">
+        <img class="tragedy-stamp" src="[TEAM_STAMP_2025]" alt="2025 team stamp" title="2025 — [Team Name]">
+        <img class="tragedy-stamp" src="[TEAM_STAMP_2024]" alt="2024 team stamp" title="2024 — [Team Name]">
+        <img class="tragedy-stamp" src="[TEAM_STAMP_2023]" alt="2023 team stamp" title="2023 — [Team Name]">
+        <img class="tragedy-stamp" src="[TEAM_STAMP_2022]" alt="2022 team stamp" title="2022 — [Team Name]">
+      </div>
+
+      <div style="margin-top:11px;text-align:center;color:#8fa0bd;font-family:Arial,sans-serif;font-size:12px;line-height:1.75">
+        2025 — [Team] · 2024 — [Team] · 2023 — [Team] · 2022 — [Team]
+      </div>
+    </section>
+
+    <section class="tragedy-archive">
+      <h2>Memorial Wall</h2>
+
+      <div class="tragedy-stamps">
+        <img class="tragedy-stamp" src="[STAMP_URL_1]" alt="stamp">
+        <img class="tragedy-stamp" src="[STAMP_URL_2]" alt="stamp">
+        <img class="tragedy-stamp" src="[STAMP_URL_3]" alt="stamp">
+        <img class="tragedy-stamp" src="[STAMP_URL_4]" alt="stamp">
+        <img class="tragedy-stamp" src="[STAMP_URL_5]" alt="stamp">
+        <img class="tragedy-stamp" src="[STAMP_URL_6]" alt="stamp">
+      </div>
+    </section>
+
+    <section class="tragedy-status">
+      <div class="tragedy-status-label">Performance Status</div>
+      <div class="tragedy-status-title">Attacks Open · Revenge Not Guaranteed</div>
+      <div class="tragedy-status-copy">
+        Every attack is deeply appreciated. Revenge depends on available time,
+        energy, and whether I can bear to reopen the story once the curtain has fallen.
+      </div>
+
+      <a class="tragedy-button" href="[TRAGEDY_CHARACTER_LINK]">
+        View Tragedy Characters
+      </a>
+    </section>
+  </main>
+
+  <footer class="tragedy-ending">
+    The curtain fell long ago. No one had the heart to leave.
+  </footer>
+</div>
+
+<div class="tragedy-profile-footer">
+  <h2>[Your Art Fight Username]</h2>
+  <p>Friendly fire welcome · Revenge not guaranteed</p>
+
+  <div style="margin-top:16px;font-size:18px;font-weight:bold">
+    <span style="color:#ff7b3f">Comedy</span>
+    <span style="color:#667085"> vs </span>
+    <span style="color:#b82e3d">Mystery</span>
+    <span style="color:#667085"> vs </span>
+    <span style="color:#7297d6">Tragedy</span>
+  </div>
+
+  <div class="tragedy-links">
+    <a class="tragedy-button" href="[TOYHOUSE_LINK]">Toyhouse</a>
+    <a class="tragedy-button" href="[SOCIAL_LINK]">Social</a>
+    <a class="tragedy-button" href="[GALLERY_LINK]">Gallery</a>
+  </div>
+</div>
